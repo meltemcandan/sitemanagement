@@ -34,9 +34,6 @@ namespace SiteManagement.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("NumberOfFlatsOnTheFloor")
-                        .HasColumnType("int");
-
                     b.Property<int?>("NumberOfFloors")
                         .HasColumnType("int");
 
@@ -57,7 +54,7 @@ namespace SiteManagement.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DeptTypeId")
+                    b.Property<int>("DebtTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -72,19 +69,21 @@ namespace SiteManagement.DAL.Migrations
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PaymentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("PaymentType")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("YearId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DebtTypeId");
 
                     b.ToTable("Debts");
                 });
@@ -101,12 +100,44 @@ namespace SiteManagement.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("DebtTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Aidat"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Yakıt"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "Elektrik"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "Su"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "Doğal Gaz"
+                        });
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.FlatEntity", b =>
@@ -157,13 +188,47 @@ namespace SiteManagement.DAL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<double>("NetM2")
-                        .HasMaxLength(50)
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.ToTable("FlatTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "1 + 1 Daire"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "2 + 1 Daire"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "3 + 1 Daire"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "4 + 1 Daire"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "4 + 2 Daire"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsDeleted = false,
+                            Name = "6 + 2 Dublex"
+                        });
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.MessageEntity", b =>
@@ -185,9 +250,6 @@ namespace SiteManagement.DAL.Migrations
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SendedPersonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -197,7 +259,12 @@ namespace SiteManagement.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
@@ -220,6 +287,20 @@ namespace SiteManagement.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MessageStates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Okundu"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Okunmadı"
+                        });
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.MonthEntity", b =>
@@ -240,131 +321,80 @@ namespace SiteManagement.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Months");
-                });
 
-            modelBuilder.Entity("SiteManagement.Model.Entities.PaymentTypeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentTypes");
-                });
-
-            modelBuilder.Entity("SiteManagement.Model.Entities.PersonEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BlockId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CarPlate")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int?>("FlatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdentificationNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsManager")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("PersonTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FlatId");
-
-                    b.HasIndex("PersonTypeId");
-
-                    b.ToTable("Persons");
-                });
-
-            modelBuilder.Entity("SiteManagement.Model.Entities.PersonPasswordEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("PersonPasswords");
-                });
-
-            modelBuilder.Entity("SiteManagement.Model.Entities.PersonTypeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PersonTypes");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Ocak"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Şubat"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "Mart"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "Nisan"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "Mayıs"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsDeleted = false,
+                            Name = "Haziran"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            IsDeleted = false,
+                            Name = "Temmuz"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            IsDeleted = false,
+                            Name = "Ağustos"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            IsDeleted = false,
+                            Name = "Eylül"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            IsDeleted = false,
+                            Name = "Ekim"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            IsDeleted = false,
+                            Name = "Kasım"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            IsDeleted = false,
+                            Name = "Aralık"
+                        });
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.SiteEntity", b =>
@@ -392,6 +422,123 @@ namespace SiteManagement.DAL.Migrations
                     b.ToTable("Sites");
                 });
 
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CarPlate")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("FlatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlatId");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserPasswordEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPasswords");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserTypeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Daire Sahibi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Kiracı"
+                        });
+                });
+
             modelBuilder.Entity("SiteManagement.Model.Entities.YearEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -410,6 +557,44 @@ namespace SiteManagement.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Years");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "2020"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "2021"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "2022"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "2023"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "2024"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsDeleted = false,
+                            Name = "2025"
+                        });
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.BlockEntity", b =>
@@ -421,6 +606,17 @@ namespace SiteManagement.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Site");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.DebtEntity", b =>
+                {
+                    b.HasOne("SiteManagement.Model.Entities.DebtTypeEntity", "DebtType")
+                        .WithMany()
+                        .HasForeignKey("DebtTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DebtType");
                 });
 
             modelBuilder.Entity("SiteManagement.Model.Entities.FlatEntity", b =>
@@ -442,30 +638,48 @@ namespace SiteManagement.DAL.Migrations
                     b.Navigation("FlatType");
                 });
 
-            modelBuilder.Entity("SiteManagement.Model.Entities.PersonEntity", b =>
+            modelBuilder.Entity("SiteManagement.Model.Entities.MessageEntity", b =>
                 {
-                    b.HasOne("SiteManagement.Model.Entities.FlatEntity", "Flat")
+                    b.HasOne("SiteManagement.Model.Entities.UserEntity", "User")
                         .WithMany()
-                        .HasForeignKey("FlatId");
-
-                    b.HasOne("SiteManagement.Model.Entities.PersonTypeEntity", "ResidentType")
-                        .WithMany()
-                        .HasForeignKey("PersonTypeId");
-
-                    b.Navigation("Flat");
-
-                    b.Navigation("ResidentType");
-                });
-
-            modelBuilder.Entity("SiteManagement.Model.Entities.PersonPasswordEntity", b =>
-                {
-                    b.HasOne("SiteManagement.Model.Entities.PersonEntity", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserEntity", b =>
+                {
+                    b.HasOne("SiteManagement.Model.Entities.FlatEntity", "Flat")
+                        .WithMany()
+                        .HasForeignKey("FlatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SiteManagement.Model.Entities.UserTypeEntity", "UserType")
+                        .WithMany()
+                        .HasForeignKey("UserTypeId");
+
+                    b.Navigation("Flat");
+
+                    b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserPasswordEntity", b =>
+                {
+                    b.HasOne("SiteManagement.Model.Entities.UserEntity", "User")
+                        .WithOne("UserPassword")
+                        .HasForeignKey("SiteManagement.Model.Entities.UserPasswordEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SiteManagement.Model.Entities.UserEntity", b =>
+                {
+                    b.Navigation("UserPassword");
                 });
 #pragma warning restore 612, 618
         }

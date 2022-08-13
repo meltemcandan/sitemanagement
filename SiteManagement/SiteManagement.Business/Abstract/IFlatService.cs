@@ -10,9 +10,9 @@ namespace SiteManagement.Business.Abstract
 {
     public interface IFlatService
     {
-        CommandResponse Add(AddFlatDto model);
+        CommandResponse Add(AddFlatDto dto);
 
-        CommandResponse Update(UpdateFlatDto model);
+        CommandResponse Update(UpdateFlatDto dto);
 
         CommandResponse Delete(int id);
 

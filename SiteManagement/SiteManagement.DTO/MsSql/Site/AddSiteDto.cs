@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiteManagement.DTO.Site
+﻿namespace SiteManagement.DTO.Site
 {
     public class AddSiteDto
     {
@@ -14,10 +8,20 @@ namespace SiteManagement.DTO.Site
 
         public string IdentificationNumber { get; set; }
         
-        public string PersonName { get; set; }
+        public string UserEmail { get; set; }
 
-        public string PersonSurname { get; set; }
+        public string UserName { get; set; }
 
-        public string PersonPhone { get; set; }
+        public string UserSurname { get; set; }
+
+        public string UserPhone { get; set; }
+
+        public string Password { get; set; }
+
+        public string PasswordRepeat { get; set; }
+
+        public int NumberOfBlock { get; set; }
+
+        public int NumberOfFloors { get; set; }
     }
 }

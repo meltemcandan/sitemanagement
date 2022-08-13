@@ -6,9 +6,9 @@ namespace SiteManagement.Business.Abstract
 {
     public interface IBlockService
     {
-        CommandResponse Add(AddBlockDto model);
+        CommandResponse Add(AddBlockDto dto);
 
-        CommandResponse Update(UpdateBlockDto model);
+        CommandResponse Update(UpdateBlockDto dto);
 
         CommandResponse Delete(int id);
 

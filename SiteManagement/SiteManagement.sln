@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteManagement.Business", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteManagement.WebApi", "SiteManagement.WebApi\SiteManagement.WebApi.csproj", "{12041922-FC54-4EE4-8C57-7329ED376D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteManagement.PaymentApi", "SiteManagement.PaymentApi\SiteManagement.PaymentApi.csproj", "{4033520F-DF50-4EF1-A936-445F8BEBE35E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteManagement.PaymentApi", "SiteManagement.PaymentApi\SiteManagement.PaymentApi.csproj", "{4033520F-DF50-4EF1-A936-445F8BEBE35E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteManagement.Test", "SiteManagement.Test\SiteManagement.Test.csproj", "{EC2B3BE0-D783-437D-8420-DB20EBEC288F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4033520F-DF50-4EF1-A936-445F8BEBE35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4033520F-DF50-4EF1-A936-445F8BEBE35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4033520F-DF50-4EF1-A936-445F8BEBE35E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC2B3BE0-D783-437D-8420-DB20EBEC288F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC2B3BE0-D783-437D-8420-DB20EBEC288F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC2B3BE0-D783-437D-8420-DB20EBEC288F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC2B3BE0-D783-437D-8420-DB20EBEC288F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

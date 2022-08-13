@@ -2,6 +2,9 @@
 
 namespace SiteManagement.Model.Entities
 {
+    /// <summary>
+    /// Borç yılları tanımlarını ifade eder
+    /// </summary>
     public class YearEntity : BaseEntity
     {
         [MaxLength(4)]

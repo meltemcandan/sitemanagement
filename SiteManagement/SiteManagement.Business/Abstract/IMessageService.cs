@@ -5,14 +5,16 @@ namespace SiteManagement.Business.Abstract
 {
     public interface IMessageService
     {
-        CommandResponse Add(AddMessageDto model);
+        CommandResponse Add(AddMessageDto dto);
 
-        CommandResponse Update(UpdateMessageDto model);
+        CommandResponse Update(UpdateMessageDto dto);
 
         CommandResponse Delete(int id);
 
         CommandResponse Get(int id);
 
         CommandResponse GetAll();
+
+        CommandResponse GetAllByUserId(int userId);
     }
 }

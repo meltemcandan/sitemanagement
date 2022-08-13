@@ -10,8 +10,6 @@ namespace SiteManagement.DTO.Block
     {
         public int Id { get; set; }
 
-        public int SiteId { get; set; }
-
         public string Name { get; set; }
 
         public int NumberOfFloors { get; set; }

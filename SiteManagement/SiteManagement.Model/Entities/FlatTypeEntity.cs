@@ -10,9 +10,5 @@ namespace SiteManagement.Model.Entities
         [MaxLength(50)]
         [Required]
         public string Name { get; set; }
-
-        [MaxLength(50)]
-        [Required]
-        public double NetM2 { get; set; }
     }
 }

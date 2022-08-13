@@ -8,7 +8,7 @@ namespace SiteManagement.DTO.Message
 {
     public class AddMessageDto
     {
-        public int SendedPersonId { get; set; }
+        public int SendedUserId { get; set; }
 
         public string Subject { get; set; }
 

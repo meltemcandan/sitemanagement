@@ -6,6 +6,6 @@ namespace SiteManagement.Business.Abstract
 {
     public interface ICreditCardService
     {
-        CommandResponse Add(AddCreditCardDto model);
+        CommandResponse Add(AddCreditCardDto dto);
     }
 }

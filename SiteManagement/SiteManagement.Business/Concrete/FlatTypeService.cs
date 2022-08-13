@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using SiteManagement.Business.Abstract;
+using SiteManagement.Business.Configuration.Extensions;
 using SiteManagement.Business.Configuration.Response;
+using SiteManagement.Business.Configuration.Validator.FluentValidation.FlatType;
 using SiteManagement.DAL.Abstract;
 using SiteManagement.DTO.FlatType;
 using SiteManagement.Model.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SiteManagement.Business.Concrete
 {
     public class FlatTypeService : IFlatTypeService
     {
         private readonly IFlatTypeRepository _flatTypeRepository;
+
         private readonly IMapper _mapper;
 
         public FlatTypeService(IFlatTypeRepository flatTypeRepository, IMapper mapper)
@@ -27,7 +27,11 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var response = _flatTypeRepository.Add(_mapper.Map<FlatTypeEntity>(dto));
+                var validator = new AddFlatTypeDtoValidator();
+                validator.Validate(dto).ThrowIfException();
+
+                var entity = _mapper.Map<FlatTypeEntity>(dto);
+                var response = _flatTypeRepository.Add(entity);
 
                 _flatTypeRepository.SaveChanges();
 
@@ -50,7 +54,21 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var response = _flatTypeRepository.Update(_mapper.Map<FlatTypeEntity>(dto));
+                var validator = new UpdateFlatTypeDtoValidator();
+                validator.Validate(dto).ThrowIfException();
+
+                var entity = _flatTypeRepository.Get(x => x.Id == dto.Id && x.IsDeleted == false);
+
+                if (entity == null)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Kayıt bulunamadı."
+                    };
+                }
+
+                entity.Name = dto.Name;
+                var response = _flatTypeRepository.Update(entity);
 
                 _flatTypeRepository.SaveChanges();
 
@@ -73,9 +91,18 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var entity = _flatTypeRepository.Get(x => x.Id == id);
+                var entity = _flatTypeRepository.Get(x => x.Id == id && x.IsDeleted == false);
 
-                _flatTypeRepository.Delete(entity);
+                if (entity == null)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Kayıt bulunamadı."
+                    };
+                }
+
+                entity.IsDeleted = true;
+                _flatTypeRepository.Update(entity);
 
                 _flatTypeRepository.SaveChanges();
 
@@ -98,7 +125,15 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var entity = _flatTypeRepository.Get(x => x.Id == id);
+                var entity = _flatTypeRepository.Get(x => x.Id == id && x.IsDeleted == false);
+
+                if (entity == null)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Kayıt bulunamadı."
+                    };
+                }
 
                 return new CommandResponse
                 {
@@ -120,8 +155,7 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var entities = _flatTypeRepository.GetAll();
-
+                var entities = _flatTypeRepository.GetAll(x => x.IsDeleted == false);
 
                 return new CommandResponse
                 {

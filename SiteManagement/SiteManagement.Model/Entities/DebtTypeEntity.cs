@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace SiteManagement.Model.Entities
 {
-    /// <summary>
-    /// Borç Tipi (Aidat, Yakıt, Doğal Gaz)
-    /// </summary>
     public class DebtTypeEntity : BaseEntity
     {
-        [MaxLength(50)]
         [Required]
+        [MaxLength(20)]
         public string Name { get; set; }
     }
 }

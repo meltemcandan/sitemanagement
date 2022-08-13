@@ -13,4 +13,8 @@
     <ProjectReference Include="..\SiteManagement.Business\SiteManagement.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

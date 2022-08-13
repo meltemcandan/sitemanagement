@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using SiteManagement.Business.Abstract;
+using SiteManagement.Business.Configuration.Auth;
+using SiteManagement.Business.Configuration.Extensions;
 using SiteManagement.Business.Configuration.Response;
+using SiteManagement.Business.Configuration.Validator.FluentValidation.Site;
 using SiteManagement.DAL.Abstract;
 using SiteManagement.DTO.Site;
 using SiteManagement.Model.Entities;
+using SiteManagement.Model.Enums;
 using System;
 
 namespace SiteManagement.Business.Concrete
@@ -12,14 +16,16 @@ namespace SiteManagement.Business.Concrete
     {
         private readonly ISiteRepository _siteRepository;
         private readonly IBlockRepository _blockRepository;
-        private readonly IPersonRepository _personRepository;
+        private readonly IFlatRepository _flatRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public SiteService(ISiteRepository siteRepository, IPersonRepository personRepository, IBlockRepository blockRepository, IMapper mapper)
+        public SiteService(ISiteRepository siteRepository, IUserRepository userRepository, IBlockRepository blockRepository, IFlatRepository flatRepository, IMapper mapper)
         {
             _siteRepository = siteRepository;
             _blockRepository = blockRepository;
-            _personRepository = personRepository;
+            _flatRepository = flatRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -27,29 +33,63 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                var siteEntity = _mapper.Map<SiteEntity>(dto);
-                var personEntity = new PersonEntity
-                {
-                    Name = dto.PersonName,
-                    Surname = dto.PersonSurname,
-                    Phone = dto.PersonPhone,
-                };
+                var validator = new AddSiteDtoValidator();
+                validator.Validate(dto).ThrowIfException();
 
+                byte[] passwordHash, passwordSalt;
+                HashHelper.CreatePasswordHash(dto.Password, out passwordHash, out passwordSalt);
+
+                // Site kaydı
+                var siteEntity = _mapper.Map<SiteEntity>(dto);
                 _siteRepository.Add(siteEntity);
                 _siteRepository.SaveChanges();
 
-                var blockEntity = new BlockEntity
+                // Blok ve Daire kaydı
+                for (int i = 0; i < dto.NumberOfBlock; i++)
                 {
-                    Name = "A Block",
-                    SiteId = siteEntity.Id,
-                };
-                _blockRepository.Add(blockEntity);
-                _blockRepository.SaveChanges();
+                    var blockEntity = new BlockEntity
+                    {
+                        Name = $"{i + 1}. Blok",
+                        SiteId = siteEntity.Id,
+                    };
 
-                personEntity.BlockId = blockEntity.Id;
-                personEntity.IsManager = true;
-                personEntity.IdentificationNumber = dto.IdentificationNumber;
-                _personRepository.Add(personEntity);
+                    _blockRepository.Add(blockEntity);
+                    _blockRepository.SaveChanges();
+
+                    for (int j = 0; j < dto.NumberOfFloors; j++)
+                    {
+                        var flatEntity = new FlatEntity
+                        {
+                            BlockId = blockEntity.Id,
+                            FlatTypeId = 3,
+                            Floor = j,
+                            No = $"{j + 1} Numara"
+                        };
+
+                        _flatRepository.Add(flatEntity);
+                        _flatRepository.SaveChanges();
+                    }
+                }
+
+                // Kullanıcı Kaydı
+                var userEntity = new UserEntity
+                {
+                    Name = dto.UserName,
+                    Surname = dto.UserSurname,
+                    Phone = dto.UserPhone,
+                    Email = dto.UserEmail,
+                    UserRole = UserRoleEnum.Manager,
+                    IdentificationNumber = dto.IdentificationNumber,
+                    FlatId = 1
+                };
+
+                userEntity.UserPassword = new UserPasswordEntity()
+                {
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                };
+
+                _userRepository.Add(userEntity);
                 _blockRepository.SaveChanges();
 
                 return new CommandResponse

@@ -5,6 +5,6 @@ namespace SiteManagement.Business.Abstract
 {
     public interface ISiteService
     {
-        CommandResponse SiteRegister(AddSiteDto model);
+        CommandResponse SiteRegister(AddSiteDto dto);
     }
 }

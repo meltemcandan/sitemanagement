@@ -2,7 +2,7 @@
 {
     public class AddBlockDto
     {
-        public int SiteId { get; set; }
+        //public int SiteId { get; set; }
 
         public string Name { get; set; }
 

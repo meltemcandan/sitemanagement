@@ -5,10 +5,11 @@ using SiteManagement.DTO.Flat;
 using SiteManagement.DTO.FlatType;
 using SiteManagement.DTO.Message;
 using SiteManagement.DTO.Mongo;
-using SiteManagement.DTO.Person;
+using SiteManagement.DTO.User;
 using SiteManagement.DTO.Site;
 using SiteManagement.Model.Document;
 using SiteManagement.Model.Entities;
+using SiteManagement.DTO.MsSql.Debt;
 
 namespace SiteManagement.Business.Configuration.Mapper
 {
@@ -20,9 +21,10 @@ namespace SiteManagement.Business.Configuration.Mapper
             CreateMap<UpdateBlockDto, BlockEntity>();
             CreateMap<BlockEntity, BlockDto>();
 
-            CreateMap<AddDebtDto, BlockEntity>();
-            CreateMap<UpdateDebtDto, DebtEntity>();
-            CreateMap<DebtEntity, DebtDto>();
+            CreateMap<AddMultiDebtDto, BlockEntity>();
+            CreateMap<PayDebtDto, DebtEntity>();
+            CreateMap<AddDebtDto, DebtEntity>();
+            CreateMap<AddDebtPaymentDto, AddCreditCardDto>();
 
             CreateMap<AddFlatDto, FlatEntity>();
             CreateMap<UpdateFlatDto, FlatEntity>();
@@ -36,9 +38,9 @@ namespace SiteManagement.Business.Configuration.Mapper
             CreateMap<UpdateMessageDto, MessageEntity>();
             CreateMap<MessageEntity, MessageDto>();
 
-            CreateMap<AddPersonDto, PersonEntity>();
-            CreateMap<UpdatePersonDto, PersonEntity>();
-            CreateMap<PersonEntity, PersonDto>();
+            CreateMap<AddUserDto, UserEntity>();
+            CreateMap<UpdateUserDto, UserEntity>();
+            CreateMap<UserEntity, UserDto>();
 
             CreateMap<AddSiteDto, SiteEntity>();
             CreateMap<SiteEntity, SiteDto>();

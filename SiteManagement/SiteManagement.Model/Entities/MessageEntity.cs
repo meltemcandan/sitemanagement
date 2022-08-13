@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiteManagement.Model.Entities
 {
@@ -16,7 +13,7 @@ namespace SiteManagement.Model.Entities
         /// Mesajı Gönderen
         /// </summary>
         [Required]
-        public int SendedPersonId { get; set; }
+        public int UserId { get; set; }
 
         [MaxLength(250)]
         [Required]
@@ -37,5 +34,9 @@ namespace SiteManagement.Model.Entities
         /// </summary>
         [Required]
         public int MessageStateId { get; set; }
+
+
+        [ForeignKey("UserId")]
+        public UserEntity User { get; set; }
     }
 }

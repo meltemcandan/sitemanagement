@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SiteManagement.Business.Abstract;
 using SiteManagement.DTO.Site;
@@ -16,7 +17,7 @@ namespace SiteManagement.WebApi.Controllers
             _siteService = siteService;
         }
 
-        [HttpPost]
+        [HttpPost("SiteRegister")]
         public IActionResult SiteRegister(AddSiteDto request)
         {
             return Ok(_siteService.SiteRegister(request));

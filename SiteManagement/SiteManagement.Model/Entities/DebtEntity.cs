@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SiteManagement.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +14,10 @@ namespace SiteManagement.Model.Entities
     /// </summary>
     public class DebtEntity : BaseEntity
     {
-        public int PaymentTypeId { get; set; }
+        public PaymentTypeEnum? PaymentType { get; set; }
 
         [Required]
-        public int PersonId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public int YearId { get; set; }
@@ -24,7 +26,7 @@ namespace SiteManagement.Model.Entities
         public int MonthId { get; set; }
 
         [Required]
-        public int DeptTypeId { get; set; }
+        public int DebtTypeId { get; set; }
 
         [Required]
         public double Price { get; set; }
@@ -32,5 +34,8 @@ namespace SiteManagement.Model.Entities
         public DateTime PaymentDate { get; set; }
 
         public bool IsItPaid { get; set; }
+
+        [ForeignKey("DebtTypeId")]
+        public DebtTypeEntity DebtType { get; set; }
     }
 }

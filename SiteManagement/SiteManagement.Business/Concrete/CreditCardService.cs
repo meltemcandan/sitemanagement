@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using SiteManagement.Business.Abstract;
+using SiteManagement.Business.Configuration.Helper;
 using SiteManagement.Business.Configuration.Response;
 using SiteManagement.DAL.Abstract;
 using SiteManagement.DTO.Mongo;
 using SiteManagement.Model.Document;
 using System;
+using System.Linq;
 
 namespace SiteManagement.Business.Concrete
 {
@@ -24,12 +26,42 @@ namespace SiteManagement.Business.Concrete
         {
             try
             {
-                _repository.Add(_mapper.Map<CreditCardEntity>(dto));
+                var creditCard = CreditCardHelper.CardList.Where(x => x.CardNumber == dto.CardNumber).SingleOrDefault();
+
+                if (creditCard == null)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Kredi kartı numaranız yanlış."
+                    };
+                }
+
+                if (creditCard.ExpireYear != dto.ExpireYear)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Son kullanma yılı yanlış girilmiş."
+                    };
+                }
+
+                if (creditCard.ExpireYear != dto.ExpireYear)
+                {
+                    return new CommandResponse
+                    {
+                        Message = "Son kullanma ayı yanlış girilmiş."
+                    };
+                }
+
+
+                var entity = _mapper.Map<CreditCardEntity>(dto);
+                entity.AddedDate = DateTime.Now;
+               _repository.Add(entity);
 
                 return new CommandResponse
                 {
                     Status = true,
-                    Message = "Kredi kartı ile ödeme alındı."
+                    Message = $"Ödeme kredi kartı ile alındı.",
+                    Data = entity.ObjectId
                 };
             }
             catch (Exception ex)

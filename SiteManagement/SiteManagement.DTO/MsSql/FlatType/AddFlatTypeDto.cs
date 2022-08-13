@@ -9,7 +9,5 @@ namespace SiteManagement.DTO.FlatType
     public class AddFlatTypeDto
     {
         public string Name { get; set; }
-
-        public double NetM2 { get; set; }
     }
 }

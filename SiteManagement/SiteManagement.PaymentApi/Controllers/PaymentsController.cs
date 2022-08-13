@@ -20,11 +20,5 @@ namespace SiteManagement.PaymentApi.Controllers
         {
             return Ok(_creditCardService.Add(request));
         }
-
-        [HttpGet]
-        public IActionResult Test()
-        {
-            return Ok();
-        }
     }
 }

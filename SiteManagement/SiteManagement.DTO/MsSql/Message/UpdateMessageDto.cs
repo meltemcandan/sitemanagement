@@ -10,7 +10,7 @@ namespace SiteManagement.DTO.Message
     {
         public int Id { get; set; }
      
-        public int SendedPersonId { get; set; }
+        public int SendedUserId { get; set; }
 
         public string Subject { get; set; }
 

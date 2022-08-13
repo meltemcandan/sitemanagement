@@ -8,6 +8,8 @@ namespace SiteManagement.DTO.Block
 {
     public class BlockDto
     {
+        public int Id { get; set; }
+
         public int SiteId { get; set; }
 
         public string SiteAdi { get; set; }
