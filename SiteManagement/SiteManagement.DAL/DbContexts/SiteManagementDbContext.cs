@@ -26,8 +26,6 @@ namespace SiteManagement.DAL.DbContexts
 
         public DbSet<MonthEntity> Months { get; set; }
 
-        //public DbSet<PaymentTypeEntity> PaymentTypes { get; set; }
-
         public DbSet<UserEntity> Users { get; set; }
 
         public DbSet<UserPasswordEntity> UserPasswords { get; set; }
