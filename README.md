@@ -1,3 +1,6 @@
+## Proje Açıklaması
+  - Bu proje bir site fatura yönetim uygulamasıdır. Bir site açılışı yapılarak blok daire ve oturan bilgileri girilebilmektedir. Yönetici daireleri farklı borç tiplerine göre borçlandırabilmektedir. Daire sahipleri borçlarını online kredi kartı ile ödeyebilmektedir. Kredi kartı ile ödeme senaryosu için ayrı bir ödeme Api'si yazılmış ve ödeme onay verileri Mongo DB de tutulmuştur. Projenin kendi DB'si MsSql dir. Projede Redis, JWT, MsSql, Mongo, AutoMapper, FluentValidation, EntityFramework gibi teknolojiler kullanılmıştır.
+
 ## Proje Kurulumu
 - Projeyi indirdikten sonra 'Package Manager Console' da update-database çalıştırınız.
 - Mesaj Durumu / Kullanıcı Tipi / Daire Tipi / Ödeme Türü / Borç Yılları / Borç Ayları tabloları otomatik doldurulur
